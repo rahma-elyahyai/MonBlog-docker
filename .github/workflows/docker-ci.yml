@@ -36,7 +36,8 @@ jobs:
         run: docker exec monblog-db mysql -uroot -proot -e "SHOW DATABASES;"
 
       - name: 🌐 Test web (Apache)
-        run: docker exec monblog-web curl -f http://localhost/
+        run: docker exec monblog-web curl -f http://localhost/src/index.php
+
 
       - name: 🧹 Stop containers
         run: docker compose down -v
