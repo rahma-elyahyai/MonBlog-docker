@@ -1,0 +1,7 @@
+.git
+.gitlab
+.gitlab-ci.yml
+db_data
+node_modules
+vendor
+*.log
