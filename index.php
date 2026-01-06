@@ -5,6 +5,7 @@ try {
   require 'vueAccueil.php'; 
 } 
 catch 
-(Exception $e) {   
-    require 'vueErreur.php'; 
+(Exception $e) {  
+  $msgErreur = $e->getMessage(); 
+  require 'vueErreur.php'; 
 }
