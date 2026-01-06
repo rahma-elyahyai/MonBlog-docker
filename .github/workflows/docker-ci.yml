@@ -1,43 +1,25 @@
-name: MonBlog CI/CD (Docker)
+name: CI NouveauProjet
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
+    branches: ["main"]
 
 jobs:
-  docker-test:
+  build_and_push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: ⬇️ Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🐳 Set up Docker
-        uses: docker/setup-buildx-action@v3
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🧱 Build Docker images
-        run: docker compose build
-
-      - name: 🚀 Start containers
-        run: docker compose up -d
-
-      - name: ⏳ Wait for MySQL
-        run: |
-          for i in {1..30}; do
-            if docker exec monblog-db mysqladmin ping -uroot -proot --silent; then
-              echo "MySQL is ready"
-              break
-            fi
-            sleep 2
-          done
-
-      - name: 🧪 Test database
-        run: docker exec monblog-db mysql -uroot -proot -e "SHOW DATABASES;"
-
-      - name: 🌐 Test web (Apache)
-        run: docker exec monblog-web curl -f http://localhost/src/index.php
-
-
-      - name: 🧹 Stop containers
-        run: docker compose down -v
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nouveauprojet:latest
