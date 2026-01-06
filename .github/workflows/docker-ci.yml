@@ -23,4 +23,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/MonBlog CI/CD (Docker):latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/monblog-docker-web:latest
